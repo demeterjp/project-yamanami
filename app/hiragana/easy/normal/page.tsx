@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
 const hiragana = [
@@ -62,10 +61,7 @@ const hiragana = [
 ];
 
 export default function PlayPage() {
-  const searchParams = useSearchParams();
-
-  const totalQuestions =
-    Number(searchParams.get("questions")) || 10;
+  const totalQuestions = 10;
 
   const [currentKana, setCurrentKana] = useState(
   hiragana[0]

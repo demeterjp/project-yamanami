@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
 const hiragana = [
@@ -116,10 +115,7 @@ function getRandomKana(currentKana?: string) {
 }
 
 export default function KanaRushPage() {
-  const searchParams = useSearchParams();
-
-  const selectedTime =
-    Number(searchParams.get("time")) || 30;
+  const selectedTime = 30;
 
   const [started, setStarted] = useState(false);
 
