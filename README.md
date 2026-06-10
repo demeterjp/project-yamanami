@@ -1,6 +1,6 @@
 # Yamanami (山波)
 
-Japanese learning app for learning Hiragana and Katakana.
+Japanese learning app for mastering Hiragana and Katakana.
 
 ## Features
 
