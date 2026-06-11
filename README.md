@@ -11,6 +11,10 @@ Japanese learning app for mastering Hiragana and Katakana.
 - Speed Mode
 - Kana Rush
 
+## Note
+
+Designed for desktop use. Mobile compatibility is not fully supported.
+
 ## Built With
 
 - Next.js
