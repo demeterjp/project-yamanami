@@ -18,7 +18,7 @@ export default function KatakanaPage() {
           href="/katakana/easy"
           className="bg-green-900 rounded-3xl p-8 border-2 border-transparent hover:border-green-400 hover:scale-105 transition"
         >
-          <h2 className="text-5xl font-bold">🟢 Easy</h2>
+          <h2 className="text-5xl font-bold">ア Easy</h2>
           <p className="text-zinc-300 mt-3 text-xl">
             Basic katakana characters.
           </p>
@@ -28,7 +28,7 @@ export default function KatakanaPage() {
           href="/katakana/medium"
           className="bg-yellow-800 rounded-3xl p-8 border-2 border-transparent hover:border-yellow-400 hover:scale-105 transition"
         >
-          <h2 className="text-5xl font-bold">🟡 Medium</h2>
+          <h2 className="text-5xl font-bold">ア Medium</h2>
           <p className="text-zinc-300 mt-3 text-xl">
             Basic katakana + dakuten and handakuten.
           </p>
@@ -38,7 +38,7 @@ export default function KatakanaPage() {
           href="/katakana/hard"
           className="bg-red-900 rounded-3xl p-8 border-2 border-transparent hover:border-red-400 hover:scale-105 transition"
         >
-          <h2 className="text-5xl font-bold">🔴 Hard</h2>
+          <h2 className="text-5xl font-bold">ア Hard</h2>
           <p className="text-zinc-300 mt-3 text-xl">
             All katakana, including yōon combinations.
           </p>
