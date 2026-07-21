@@ -10,10 +10,11 @@ Japanese learning app for mastering Hiragana and Katakana.
 - Normal Mode
 - Speed Mode
 - Kana Rush
+- Kana Fall
 
 ## Note
 
-Designed for desktop use. Mobile compatibility is not fully supported.
+The application is designed for desktop use. It can be opened on mobile devices, but it is not fully functional.
 
 ## Built With
 
