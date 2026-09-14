@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 const hiragana = [
@@ -61,7 +61,7 @@ const hiragana = [
   { kana: "ん", romaji: "nn" },
 ];
 
-export default function PlayPage() {
+function PlayPageContent() {
   const searchParams = useSearchParams();
   const totalQuestions = parseInt(searchParams.get("questions") || "10", 10);
 
@@ -373,4 +373,12 @@ shadow-[0_0_20px_rgba(34,197,94,0.3)]
 </div>
 </div>
 );
+}
+
+export default function PlayPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PlayPageContent />
+    </Suspense>
+  );
 }
