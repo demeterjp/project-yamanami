@@ -140,6 +140,7 @@ const hardExtra = [
 
 export default function KanaFallHiragana() {
 const spawnX = () => Math.random() * (window.innerWidth - 100);
+const spawnY = () => -(Math.random() * 300 + 100);
 
 const randomDirection = () => (Math.random() < 0.5 ? -2 : 2);
   const [started, setStarted] = useState(false);
@@ -151,13 +152,13 @@ const [time, setTime] = useState(0);
 const [levelText, setLevelText] = useState("");
 
 const getNextLevelTime = () => {
-  if (time < 15) return 15 - time;
-  if (time < 30) return 30 - time;
+  if (time < 20) return 20 - time;
+  if (time < 40) return 40 - time;
   return 0;
 };
 const getCurrentLevel = () => {
-  if (time < 15) return "easy";
-  if (time < 30) return "medium";
+  if (time < 20) return "easy";
+  if (time < 40) return "medium";
   return "hard";
 };
 const randomKana = () => {
@@ -187,14 +188,39 @@ const randomKana = () => {
 
   return kanaList[Math.floor(Math.random() * kanaList.length)];
 };
+
+const getKanaDamage = (kana: any) => {
+  if (mediumExtra.includes(kana)) {
+    return 10;
+  }
+
+  if (hardExtra.includes(kana)) {
+    return 15;
+  }
+
+  return 5;
+};
+
+const getKanaScore = (kana: any) => {
+  if (mediumExtra.includes(kana)) {
+    return 10;
+  }
+
+  if (hardExtra.includes(kana)) {
+    return 15;
+  }
+
+  return 5;
+};
+
 useEffect(() => {
   setKanas([
-  { kana: randomKana(), x: spawnX(), y: -600, dx: randomDirection() },
-  { kana: randomKana(), x: spawnX(), y: -500, dx: randomDirection() },
-  { kana: randomKana(), x: spawnX(), y: -400, dx: randomDirection() },
-  { kana: randomKana(), x: spawnX(), y: -300, dx: randomDirection() },
-  { kana: randomKana(), x: spawnX(), y: -200, dx: randomDirection() },
-  { kana: randomKana(), x: spawnX(), y: -100, dx: randomDirection() },
+  { kana: randomKana(), x: spawnX(), y: spawnY(), dx: randomDirection() },
+  { kana: randomKana(), x: spawnX(), y: spawnY(), dx: randomDirection() },
+  { kana: randomKana(), x: spawnX(), y: spawnY(), dx: randomDirection() },
+  { kana: randomKana(), x: spawnX(), y: spawnY(), dx: randomDirection() },
+  { kana: randomKana(), x: spawnX(), y: spawnY(), dx: randomDirection() },
+  { kana: randomKana(), x: spawnX(), y: spawnY(), dx: randomDirection() },
 ]);
 }, []);
   useEffect(() => {
@@ -215,39 +241,104 @@ useEffect(() => {
   if (!started) return;
 
   const interval = setInterval(() => {
-    setKanas((prev) =>
-  prev.map((k) => {
-    let x = k.x + k.dx;
-    let y = k.y + 1;
-    let dx = k.dx;
+    setKanas((prev) => {
+      const next = prev.map((k) => {
+        let x = k.x + k.dx;
+        let y = k.y + 1;
+        let dx = k.dx;
 
-    if (x <= 0 || x >= window.innerWidth - 80) {
-      dx = -dx;
-    }
+        // Odbicie od lewej i prawej strony
+        const width = k.kana.kana.length > 1 ? 128 : 112;
 
-    if (y > window.innerHeight - 120) {
-      setHp((h) => Math.max(h - 5, 0));
+if (x <= 0) {
+  x = 0;
+  dx = Math.abs(dx);
+}
 
-      return {
-  kana: randomKana(),
-  x: spawnX(),
-  y: -100,
-  dx: randomDirection(),
-};
-    }
+if (x + width >= window.innerWidth) {
+  x = window.innerWidth - width;
+  dx = -Math.abs(dx);
+}
 
-    return {
-      ...k,
-      x,
-      y,
-      dx,
-    };
-  })
-);
+        return {
+          ...k,
+          x,
+          y,
+          dx,
+        };
+      });
+
+      // Kolizje między znakami
+      for (let i = 0; i < next.length; i++) {
+        for (let j = i + 1; j < next.length; j++) {
+          const a = next[i];
+          const b = next[j];
+
+          const aWidth = a.kana.kana.length > 1 ? 128 : 112;
+          const bWidth = b.kana.kana.length > 1 ? 128 : 112;
+
+          const height = 112;
+
+          const collision =
+            a.x < b.x + bWidth &&
+            a.x + aWidth > b.x &&
+            a.y < b.y + height &&
+            a.y + height > b.y;
+
+          if (collision) {
+            // Zmiana kierunku poziomego
+            next[i].dx = -next[i].dx;
+            next[j].dx = -next[j].dx;
+
+            // Rozdzielenie kwadratów, żeby nie nachodziły na siebie
+            const overlap =
+              Math.min(a.x + aWidth, b.x + bWidth) -
+              Math.max(a.x, b.x);
+
+            if (a.x < b.x) {
+              next[i].x -= overlap / 2;
+              next[j].x += overlap / 2;
+            } else {
+              next[i].x += overlap / 2;
+              next[j].x -= overlap / 2;
+            }
+          }
+        }
+      }
+
+      return next;
+    });
   }, 16);
 
   return () => clearInterval(interval);
 }, [started]);
+
+useEffect(() => {
+  if (!started) return;
+
+  const missedIndex = kanas.findIndex(
+    (k) => k.y > window.innerHeight - 120
+  );
+
+  if (missedIndex === -1) return;
+
+  const missedKana = kanas[missedIndex].kana;
+
+  setHp((h) => Math.max(h - getKanaDamage(missedKana), 0));
+
+  setKanas((prev) =>
+    prev.map((k, i) =>
+      i === missedIndex
+        ? {
+            kana: randomKana(),
+            x: spawnX(),
+            y: spawnY(),
+            dx: randomDirection(),
+          }
+        : k
+    )
+  );
+}, [kanas, started]);
 
 useEffect(() => {
   const index = kanas.findIndex(
@@ -260,13 +351,7 @@ useEffect(() => {
 
   const level = getCurrentLevel();
 
-if (level === "easy") {
-  setScore((s) => s + 1);
-} else if (level === "medium") {
-  setScore((s) => s + 5);
-} else {
-  setScore((s) => s + 10);
-}
+setScore((s) => s + getKanaScore(kanas[index].kana));
 
   setKanas((prev) =>
     prev.map((k, i) =>
@@ -274,7 +359,7 @@ if (level === "easy") {
         ? {
             kana: randomKana(),
             x: spawnX(),
-y: 100,
+y: spawnY(),
 dx: randomDirection(),
 
           }
@@ -292,12 +377,12 @@ useEffect(() => {
   setTime((t) => {
     const newTime = t + 1;
 
-    if (newTime === 15 || newTime === 30) {
-        setLevelText(
-  newTime === 15
-    ? " MEDIUM "
-    : " HARD "
-);
+    if (newTime === 20 || newTime === 40) {
+  setLevelText(
+    newTime === 20
+      ? " MEDIUM "
+      : " HARD "
+  );
 
   setAnswer("");
 
@@ -575,17 +660,23 @@ return (
 />
     {kanas.map((k, index) => (
   <div
-    key={index}
-    className="absolute"
-    style={{
-      top: k.y,
-      left: k.x,
-    }}
-  >
-    <span className="text-8xl">
-      {k.kana.kana}
-    </span>
-  </div>
+  key={index}
+  className={`absolute ${
+  k.kana.kana.length > 1 ? "w-32 h-28" : "w-28 h-28"
+} bg-zinc-900/80 border border-white/20 rounded-2xl flex items-center justify-center`}
+  style={{
+    top: k.y,
+    left: k.x,
+  }}
+>
+  <span
+  className={`whitespace-nowrap relative top-2 ${
+    k.kana.kana.length > 1 ? "text-6xl" : "text-7xl"
+  }`}
+>
+  {k.kana.kana}
+</span>
+</div>
 ))}
 
     <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
