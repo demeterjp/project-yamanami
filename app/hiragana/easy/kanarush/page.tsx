@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 const hiragana = [
   { kana: "あ", romaji: "a" },
@@ -70,8 +71,9 @@ function getRandomKana(currentKana?: string) {
   return next;
 }
 
-export default function KanaRushPage() {
-  const selectedTime = 30;
+function KanaRushPageContent() {
+  const searchParams = useSearchParams();
+  const selectedTime = parseInt(searchParams.get("time") || "60", 10);
 
   const [started, setStarted] = useState(false);
 
@@ -413,5 +415,13 @@ export default function KanaRushPage() {
       </div>
 
     </div>
+  );
+}
+
+export default function KanaRushPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <KanaRushPageContent />
+    </Suspense>
   );
 }
