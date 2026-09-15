@@ -312,11 +312,19 @@ useEffect(() => {
 }, [started]);
 
 useEffect(() => {
-  const index = kanas.findIndex(
-    (k) =>
-      answer === k.kana.romaji ||
-      answer === k.kana.kana
-  );
+  let index = -1;
+let lowestY = -Infinity;
+
+kanas.forEach((k, i) => {
+  const matches =
+    answer === k.kana.romaji ||
+    answer === k.kana.kana;
+
+  if (matches && k.y > lowestY) {
+    lowestY = k.y;
+    index = i;
+  }
+});
 
   if (index === -1) return;
 
