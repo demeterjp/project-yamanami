@@ -5,15 +5,15 @@ import { useEffect, useState, useMemo } from "react";
 export default function Sakura() {
   const [mounted, setMounted] = useState(false);
   const sakuras = useMemo(
-  () =>
-    Array.from({ length: 35 }).map(() => ({
-      left: Math.random() * 40,
-      duration: 6 + Math.random() * 6,
-      delay: Math.random() * 5,
-      size: 10 + Math.random() * 18,
-    })),
-  []
-);
+    () =>
+      Array.from({ length: 35 }).map(() => ({
+        top: Math.random() * 90,
+        duration: 6 + Math.random() * 6,
+        delay: Math.random() * 5,
+        size: 10 + Math.random() * 18,
+      })),
+    []
+  );
 
   useEffect(() => {
     setMounted(true);
@@ -28,11 +28,11 @@ export default function Sakura() {
           key={i}
           className="sakura"
           style={{
-  left: `${sakura.left}%`,
-  animationDuration: `${sakura.duration}s`,
-  animationDelay: `${sakura.delay}s`,
-  fontSize: `${sakura.size}px`,
-}}
+            top: `${sakura.top}%`,
+            animationDuration: `${sakura.duration}s`,
+            animationDelay: `${sakura.delay}s`,
+            fontSize: `${sakura.size}px`,
+          }}
         >
           ❀
         </div>
