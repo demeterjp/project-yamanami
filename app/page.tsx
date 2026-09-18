@@ -13,24 +13,7 @@ export default function Home() {
   
   return (
     <div
-  className={`flex flex-col items-center justify-center min-h-screen gap-8 transition-all duration-500 bg-cover bg-center ${
-  theme === "light"
-  ? "bg-white text-black"
-  : theme === "dark"
-  ? "bg-black text-white"
-  : "text-white"
-}`}
-style={
-  theme === "japan"
-    ? {
-        backgroundImage: "url('/japan 1 Main.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }
-    : theme === "dark"
-    ? { backgroundColor: "black" }
-    : { backgroundColor: "white" }
-}
+  className="flex flex-col items-center justify-center min-h-screen gap-8 transition-all duration-500 bg-cover bg-center text-white"
 >
   <Sakura />
       {/* Logo lewy górny róg */}
