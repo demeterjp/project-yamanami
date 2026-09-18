@@ -172,6 +172,50 @@ hover:bg-purple-700
   )}
 </Link>
 
+<Link
+  href="/numbers"
+  onMouseEnter={() => setHoveredMode("numbers")}
+  onMouseLeave={() => setHoveredMode("")}
+  className="
+    relative
+    mt-6 [@media(max-height:800px)]:mt-3
+    bg-orange-500
+    border
+    border-orange-300/60
+    hover:bg-orange-600
+    hover:scale-105
+    active:scale-95
+    active:translate-y-1
+    transition-all
+    duration-150
+    px-12 [@media(max-height:800px)]:px-8
+    py-5 [@media(max-height:800px)]:py-3
+    rounded-2xl
+    text-3xl [@media(max-height:800px)]:text-2xl
+    font-bold
+    shadow-[0_0_25px_#f97316]
+    flex
+    items-center
+    gap-4
+  "
+>
+  <div className="w-16 flex justify-center">
+  <span className="text-5xl [@media(max-height:800px)]:text-4xl whitespace-nowrap">数字</span>
+</div>
+
+  <div className="w-40">
+    <span className="mt-1 block">
+      Numbers
+    </span>
+  </div>
+
+  {hoveredMode === "numbers" && (
+    <div className="absolute left-full ml-4 top-1/2 -translate-y-1/2 flex items-center bg-black/30 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4 text-white/90 text-lg w-80 min-h-[90px] animate-fadeIn shadow-[0_0_25px_rgba(120,80,255,0.25)]">
+      Practice Japanese numbers.
+    </div>
+  )}
+</Link>
+
 </div>
 
 </div>
