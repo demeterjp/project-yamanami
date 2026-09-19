@@ -153,7 +153,7 @@ export default function HiraganaPage() {
           active:scale-95
         "
       >
-        ⬅ Back
+        Back
       </button>
 
     </div>

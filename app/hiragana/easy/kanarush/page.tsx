@@ -218,7 +218,7 @@ function KanaRushPageContent() {
               active:scale-95
             "
           >
-            ⬅ Back
+            Back
           </button>
         </div>
 
@@ -278,7 +278,7 @@ function KanaRushPageContent() {
               hover:border-red-500
             "
           >
-            ⬅ Back
+            Back
           </button>
 
         </div>
@@ -410,7 +410,7 @@ function KanaRushPageContent() {
             active:scale-95
           "
         >
-          ⬅ Back
+          Back
         </button>
       </div>
 

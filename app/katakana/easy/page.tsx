@@ -157,7 +157,7 @@ export default function KatakanaPage() {
     active:scale-95
   "
 >
-  ⬅ Back
+  Back
 </button>
 
     </div>

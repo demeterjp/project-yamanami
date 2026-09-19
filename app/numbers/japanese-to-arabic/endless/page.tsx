@@ -80,7 +80,7 @@ export default function ArabicToJapaneseDigitsPage() {
 
         <button
           onClick={startGame}
-          className="w-full max-w-xl py-6 rounded-2xl bg-orange-600 text-4xl font-bold hover:bg-orange-500 hover:scale-105 transition-all shadow-[0_0_30px_rgba(249,115,22,0.5)]"
+          className="w-full max-w-xl py-6 rounded-2xl bg-orange-600 text-4xl font-bold hover:bg-red-600 hover:scale-105 transition-all shadow-[0_0_30px_rgba(249,115,22,0.5)]"
         >
           Start
         </button>
@@ -90,7 +90,7 @@ export default function ArabicToJapaneseDigitsPage() {
             onClick={() => window.history.back()}
             className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl py-6 text-2xl font-bold text-zinc-300 transition-all duration-300 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105 active:scale-95"
           >
-            ⬅ Back
+            Back
           </button>
         </div>
       </div>
@@ -105,7 +105,7 @@ export default function ArabicToJapaneseDigitsPage() {
           <p className="text-4xl font-bold text-white">Score: {score} / {numbers.length}</p>
           <button
             onClick={() => setPhase("setup")}
-            className="bg-orange-500 hover:bg-orange-600 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold"
+            className="bg-red-600 hover:bg-red-700 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold"
           >
             Retry
           </button>
@@ -113,7 +113,7 @@ export default function ArabicToJapaneseDigitsPage() {
             onClick={() => window.history.back()}
             className="bg-zinc-800 hover:bg-zinc-700 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold border border-zinc-600 text-zinc-300 hover:text-red-500 hover:border-red-500"
           >
-            ⬅ Back
+            Back
           </button>
         </div>
       </div>
@@ -186,7 +186,7 @@ export default function ArabicToJapaneseDigitsPage() {
           onClick={() => window.history.back()}
           className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl py-4 text-2xl font-bold text-zinc-300 transition-all duration-300 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105 active:scale-95"
         >
-          ⬅ Back
+          Back
         </button>
       </div>
     </div>

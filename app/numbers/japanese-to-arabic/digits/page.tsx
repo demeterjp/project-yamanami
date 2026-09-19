@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toKanjiNumber, generateUniqueNumbers } from "../../kanjiUtils";
 
 export default function JapaneseToArabicDigitsPage() {
@@ -11,6 +11,20 @@ export default function JapaneseToArabicDigitsPage() {
   const [correctCount, setCorrectCount] = useState(0);
   const [input, setInput] = useState("");
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (phase === "playing" && feedback === null) inputRef.current?.focus();
+  }, [phase, index, feedback]);
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key !== "Enter") return;
+      if (phase === "setup" || phase === "results") startGame();
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  });
 
   function startGame() {
     const nums = generateUniqueNumbers(10, digitLength);
@@ -42,20 +56,22 @@ export default function JapaneseToArabicDigitsPage() {
   if (phase === "setup") {
     return (
       <div className="min-h-screen text-white flex flex-col items-center justify-center gap-10 px-6">
-        <div className="w-full max-w-xl bg-zinc-900 rounded-3xl border border-amber-500/30 p-8">
-          <h1 className="text-5xl font-bold text-center text-amber-400">◆ Digit Length ◆</h1>
+        <div className="w-full max-w-xl bg-zinc-900 rounded-3xl border border-violet-500/30 p-8">
+          <h1 className="text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-fuchsia-400">
+            ◆ Custom Drill ◆
+          </h1>
         </div>
 
-        <div className="w-full max-w-xl bg-zinc-900 rounded-2xl border border-amber-500/30 p-8 flex flex-col items-center gap-6">
+        <div className="w-full max-w-xl bg-zinc-900 rounded-2xl border border-violet-500/30 p-8 flex flex-col items-center gap-6">
           <p className="text-zinc-400 text-xl text-center">How many digits should the numbers have?</p>
-          <span className="text-7xl font-bold text-amber-400">{digitLength}</span>
+          <span className="text-7xl font-bold text-violet-400">{digitLength}</span>
           <input
             type="range"
             min={1}
             max={10}
             value={digitLength}
             onChange={(e) => setDigitLength(Number(e.target.value))}
-            className="w-full accent-amber-500"
+            className="w-full accent-violet-500"
           />
           <div className="flex justify-between w-full text-zinc-500 text-sm px-1">
             <span>1</span>
@@ -65,7 +81,7 @@ export default function JapaneseToArabicDigitsPage() {
 
         <button
           onClick={startGame}
-          className="w-full max-w-xl py-6 rounded-2xl bg-amber-600 text-4xl font-bold hover:bg-amber-500 hover:scale-105 transition-all shadow-[0_0_30px_rgba(245,158,11,0.5)]"
+          className="w-full max-w-xl py-6 rounded-2xl bg-violet-600 text-4xl font-bold hover:bg-violet-500 hover:scale-105 transition-all shadow-[0_0_30px_rgba(139,92,246,0.5)]"
         >
           Start
         </button>
@@ -75,7 +91,7 @@ export default function JapaneseToArabicDigitsPage() {
             onClick={() => window.history.back()}
             className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl py-6 text-2xl font-bold text-zinc-300 transition-all duration-300 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105 active:scale-95"
           >
-            ⬅ Back
+            Back
           </button>
         </div>
       </div>
@@ -84,13 +100,13 @@ export default function JapaneseToArabicDigitsPage() {
 
   if (phase === "results") {
     return (
-      <div className="min-h-screen text-white flex items-center justify-center">
-        <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-10 border border-amber-500/30 flex flex-col items-center gap-8">
-          <h1 className="text-7xl font-bold text-amber-400">Complete!</h1>
+      <div className="min-h-screen text-white flex items-center justify-center px-6">
+        <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-10 border border-violet-500/30 flex flex-col items-center gap-6">
+          <h1 className="text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-fuchsia-400">Complete!</h1>
           <p className="text-4xl font-bold text-white">Score: {correctCount} / {numbers.length}</p>
           <button
-            onClick={() => setPhase("setup")}
-            className="bg-amber-500 hover:bg-amber-600 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold"
+            onClick={startGame}
+            className="bg-violet-500 hover:bg-violet-600 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold"
           >
             Retry
           </button>
@@ -98,7 +114,7 @@ export default function JapaneseToArabicDigitsPage() {
             onClick={() => window.history.back()}
             className="bg-zinc-800 hover:bg-zinc-700 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold border border-zinc-600 text-zinc-300 hover:text-red-500 hover:border-red-500"
           >
-            ⬅ Back
+            Back
           </button>
         </div>
       </div>
@@ -107,41 +123,45 @@ export default function JapaneseToArabicDigitsPage() {
 
   return (
     <div className="min-h-screen text-white flex flex-col items-center justify-center gap-8 px-6">
-      <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-8 border border-amber-500/20">
-        <h1 className="text-5xl font-bold text-amber-400 text-center">◆ Digit Length ◆</h1>
+      <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-8 border border-violet-500/20">
+        <h1 className="text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-fuchsia-400">
+          ◆ Custom Drill ◆
+        </h1>
       </div>
 
       <div className="w-[500px] max-w-full h-4 bg-zinc-800 rounded-full overflow-hidden">
         <div
-          className="h-full bg-amber-400 transition-all duration-300"
+          className="h-full bg-violet-400 transition-all duration-300"
           style={{ width: `${(index / numbers.length) * 100}%` }}
         />
       </div>
 
-      <div className="bg-zinc-900 border border-amber-500/30 rounded-2xl px-8 py-4 flex gap-12 text-2xl font-bold shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+      <div className="bg-zinc-900 border border-violet-500/30 rounded-2xl px-8 py-4 flex gap-12 text-2xl font-bold shadow-[0_0_15px_rgba(139,92,246,0.15)]">
         <p>Question: {index + 1}/{numbers.length}</p>
         <p>Score: {correctCount}</p>
       </div>
 
-      <div className="w-72 h-72 max-w-full bg-zinc-900 border border-amber-500/40 rounded-3xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(245,158,11,0.2)] px-4">
-        <span className="text-6xl font-bold text-center break-words">{toKanjiNumber(numbers[index])}</span>
+      <div className="w-full max-w-2xl min-h-[9rem] bg-zinc-900 border border-violet-500/40 rounded-3xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(139,92,246,0.2)] px-4 py-6">
+        <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-center break-words leading-snug">
+          {toKanjiNumber(numbers[index])}
+        </span>
       </div>
 
       <input
         type="text"
+        ref={inputRef}
         inputMode="numeric"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
         disabled={feedback !== null}
-        autoFocus
         placeholder="Type the number..."
-        className={`w-[400px] max-w-full px-6 py-4 rounded-2xl text-3xl text-center bg-zinc-900 text-white border outline-none transition-all duration-300 ${
+        className={`w-full max-w-md px-6 py-4 rounded-2xl text-3xl text-center bg-zinc-900 text-white border outline-none transition-all duration-300 ${
           feedback === "correct"
             ? "border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.6)]"
             : feedback === "wrong"
             ? "border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.8)]"
-            : "border-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.35)]"
+            : "border-violet-500 shadow-[0_0_12px_rgba(139,92,246,0.35)]"
         }`}
       />
 
@@ -152,7 +172,7 @@ export default function JapaneseToArabicDigitsPage() {
       <button
         onClick={handleSubmit}
         disabled={feedback !== null}
-        className="w-[500px] max-w-full py-5 rounded-2xl border border-amber-500 text-amber-400 text-2xl font-bold bg-zinc-900 hover:bg-zinc-800 transition shadow-[0_0_20px_rgba(245,158,11,0.3)] disabled:opacity-50"
+        className="w-full max-w-xl py-5 rounded-2xl border border-violet-500 text-violet-400 text-2xl font-bold bg-zinc-900 hover:bg-zinc-800 transition shadow-[0_0_20px_rgba(139,92,246,0.3)] disabled:opacity-50"
       >
         Check
       </button>
@@ -162,7 +182,7 @@ export default function JapaneseToArabicDigitsPage() {
           onClick={() => window.history.back()}
           className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl py-4 text-2xl font-bold text-zinc-300 transition-all duration-300 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105 active:scale-95"
         >
-          ⬅ Back
+          Back
         </button>
       </div>
     </div>

@@ -17,7 +17,7 @@ export default function Home() {
 >
   <Sakura />
       {/* Logo lewy górny róg */}
-<div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-20 flex flex-col gap-6 sm:gap-10 lg:gap-14">
+<div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-20 flex flex-col gap-4 sm:gap-8 lg:gap-14">
 
   <div>
     <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl min-[1920px]:text-[9.5rem] min-[2560px]:text-[12rem] min-[3840px]:text-[16rem] font-black tracking-tight text-zinc-100 drop-shadow-[0_0_35px_#ff4fd8] leading-none">
@@ -29,7 +29,7 @@ export default function Home() {
   </div>
 
   <div className="flex flex-col items-center">
-    <div className="mb-8 [@media(max-height:800px)]:mb-4">
+    <div className="mb-6 [@media(max-height:800px)]:mb-4">
       <h2 className="text-5xl min-[1920px]:text-6xl min-[2560px]:text-7xl min-[3840px]:text-8xl text-center text-white font-bold tracking-widest drop-shadow-[0_0_20px_#ffffff]">
         PRACTICE
       </h2>
@@ -89,7 +89,7 @@ hover:bg-emerald-700
 onMouseLeave={() => setHoveredMode("")}
   className="
   relative
-    mt-6 [@media(max-height:800px)]:mt-3 min-[1920px]:mt-8 min-[2560px]:mt-10 min-[3840px]:mt-14
+    mt-4 [@media(max-height:800px)]:mt-3 min-[1920px]:mt-8 min-[2560px]:mt-10 min-[3840px]:mt-14
     bg-purple-600
     border
 border-purple-300/60
@@ -134,7 +134,7 @@ hover:bg-purple-700
   onMouseLeave={() => setHoveredMode("")}
   className="
     relative
-    mt-6 [@media(max-height:800px)]:mt-3 min-[1920px]:mt-8 min-[2560px]:mt-10 min-[3840px]:mt-14
+    mt-4 [@media(max-height:800px)]:mt-3 min-[1920px]:mt-8 min-[2560px]:mt-10 min-[3840px]:mt-14
     bg-cyan-500
     border
     border-cyan-300/60
@@ -178,11 +178,11 @@ hover:bg-purple-700
   onMouseLeave={() => setHoveredMode("")}
   className="
     relative
-    mt-6 [@media(max-height:800px)]:mt-3 min-[1920px]:mt-8 min-[2560px]:mt-10 min-[3840px]:mt-14
-    bg-orange-500
+    mt-4 [@media(max-height:800px)]:mt-3 min-[1920px]:mt-8 min-[2560px]:mt-10 min-[3840px]:mt-14
+    bg-red-600
     border
-    border-orange-300/60
-    hover:bg-orange-600
+    border-red-400/60
+    hover:bg-red-700
     hover:scale-105
     active:scale-95
     active:translate-y-1
@@ -193,7 +193,7 @@ hover:bg-purple-700
     rounded-2xl
     text-3xl [@media(max-height:800px)]:text-2xl min-[1920px]:text-4xl min-[2560px]:text-5xl min-[3840px]:text-6xl
     font-bold
-    shadow-[0_0_25px_#f97316]
+    shadow-[0_0_25px_#ef4444]
     flex
     items-center
     gap-4 min-[1920px]:gap-6 min-[2560px]:gap-8 min-[3840px]:gap-10

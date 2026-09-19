@@ -53,7 +53,7 @@ export default function KanaFallPage() {
             active:scale-95
           "
         >
-          ⬅ Back
+          Back
         </button>
 
       </div>

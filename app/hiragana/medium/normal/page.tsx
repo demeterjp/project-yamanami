@@ -243,7 +243,7 @@ setAnswer("");
             hover:shadow-[0_0_20px_rgba(239,68,68,0.3)]
           "
         >
-          ⬅ Back
+          Back
         </button>
 
       </div>
@@ -408,7 +408,7 @@ shadow-[0_0_20px_rgba(34,197,94,0.3)]
       active:scale-95
     "
   >
-    ⬅ Back
+    Back
   </button>
 </div>
 </div>

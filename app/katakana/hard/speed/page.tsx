@@ -293,7 +293,7 @@ while (currentIndex < input.length) {
             active:scale-95
           "
         >
-          ⬅ Back
+          Back
         </button>
       </div>
 
@@ -353,7 +353,7 @@ while (currentIndex < input.length) {
   hover:shadow-[0_0_20px_rgba(239,68,68,0.3)]
 "
   >
-    ⬅ Back
+    Back
   </button>
 
 </div>
@@ -536,7 +536,7 @@ placeholder:text-sm
   active:scale-95
 "
   >
-    ⬅ Back
+    Back
   </button>
 </div>
         </div>

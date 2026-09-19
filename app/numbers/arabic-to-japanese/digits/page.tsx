@@ -24,6 +24,15 @@ export default function ArabicToJapaneseDigitsPage() {
     if (phase === "playing") inputRef.current?.focus();
   }, [phase, index]);
 
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key !== "Enter") return;
+      if (phase === "setup" || phase === "results") startGame();
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  });
+
   function startGame() {
     const nums = generateUniqueNumbers(10, digitLength);
     setNumbers(nums);
@@ -58,7 +67,9 @@ export default function ArabicToJapaneseDigitsPage() {
     return (
       <div className="min-h-screen text-white flex flex-col items-center justify-center gap-10 px-6">
         <div className="w-full max-w-xl bg-zinc-900 rounded-3xl border border-orange-500/30 p-8">
-          <h1 className="text-5xl font-bold text-center text-orange-400">◆ Digit Length ◆</h1>
+          <h1 className="text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-rose-400">
+            ◆ Custom Drill ◆
+          </h1>
         </div>
 
         <div className="w-full max-w-xl bg-zinc-900 rounded-2xl border border-orange-500/30 p-8 flex flex-col items-center gap-6">
@@ -90,7 +101,7 @@ export default function ArabicToJapaneseDigitsPage() {
             onClick={() => window.history.back()}
             className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl py-6 text-2xl font-bold text-zinc-300 transition-all duration-300 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105 active:scale-95"
           >
-            ⬅ Back
+            Back
           </button>
         </div>
       </div>
@@ -99,12 +110,12 @@ export default function ArabicToJapaneseDigitsPage() {
 
   if (phase === "results") {
     return (
-      <div className="min-h-screen text-white flex items-center justify-center">
-        <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-10 border border-orange-500/30 flex flex-col items-center gap-8">
-          <h1 className="text-7xl font-bold text-orange-400">Complete!</h1>
+      <div className="min-h-screen text-white flex items-center justify-center px-6">
+        <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-10 border border-orange-500/30 flex flex-col items-center gap-6">
+          <h1 className="text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-rose-400">Complete!</h1>
           <p className="text-4xl font-bold text-white">Score: {score} / {numbers.length}</p>
           <button
-            onClick={() => setPhase("setup")}
+            onClick={startGame}
             className="bg-orange-500 hover:bg-orange-600 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold"
           >
             Retry
@@ -113,7 +124,7 @@ export default function ArabicToJapaneseDigitsPage() {
             onClick={() => window.history.back()}
             className="bg-zinc-800 hover:bg-zinc-700 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold border border-zinc-600 text-zinc-300 hover:text-red-500 hover:border-red-500"
           >
-            ⬅ Back
+            Back
           </button>
         </div>
       </div>
@@ -125,7 +136,9 @@ export default function ArabicToJapaneseDigitsPage() {
   return (
     <div className="min-h-screen text-white flex flex-col items-center justify-center gap-8 px-6">
       <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-8 border border-orange-500/20">
-        <h1 className="text-5xl font-bold text-orange-400 text-center">◆ Digit Length ◆</h1>
+        <h1 className="text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-rose-400">
+          ◆ Custom Drill ◆
+        </h1>
       </div>
 
       <div className="w-[500px] max-w-full h-4 bg-zinc-800 rounded-full overflow-hidden">
@@ -140,8 +153,8 @@ export default function ArabicToJapaneseDigitsPage() {
         <p>Score: {score}</p>
       </div>
 
-      <div className="w-72 h-72 max-w-full bg-zinc-900 border border-orange-500/40 rounded-3xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(249,115,22,0.2)]">
-        <span className="text-7xl font-bold">{current}</span>
+      <div className="w-full max-w-2xl min-h-[9rem] bg-zinc-900 border border-orange-500/40 rounded-3xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(249,115,22,0.2)] px-4 py-6">
+        <span className="text-4xl sm:text-5xl md:text-6xl font-bold text-center break-words">{current}</span>
         {result && (
           <p
             className={`mt-4 text-3xl font-bold h-10 ${
@@ -171,12 +184,12 @@ export default function ArabicToJapaneseDigitsPage() {
           }
         }}
         placeholder="Type romaji..."
-        className="w-[400px] max-w-full px-6 py-4 rounded-2xl text-3xl text-center bg-zinc-900 text-white border border-purple-500 outline-none transition-all duration-300 shadow-[0_0_12px_rgba(168,85,247,0.35)] focus:shadow-[0_0_22px_rgba(168,85,247,0.8)] focus:border-purple-400"
+        className="w-full max-w-md px-6 py-4 rounded-2xl text-3xl text-center bg-zinc-900 text-white border border-purple-500 outline-none transition-all duration-300 shadow-[0_0_12px_rgba(168,85,247,0.35)] focus:shadow-[0_0_22px_rgba(168,85,247,0.8)] focus:border-purple-400"
       />
 
       <button
         onClick={checkAnswer}
-        className="w-[500px] max-w-full py-5 rounded-2xl border border-orange-500 text-orange-400 text-2xl font-bold bg-zinc-900 hover:bg-zinc-800 transition shadow-[0_0_20px_rgba(249,115,22,0.3)]"
+        className="w-full max-w-xl py-5 rounded-2xl border border-orange-500 text-orange-400 text-2xl font-bold bg-zinc-900 hover:bg-zinc-800 transition shadow-[0_0_20px_rgba(249,115,22,0.3)]"
       >
         Check
       </button>
@@ -186,7 +199,7 @@ export default function ArabicToJapaneseDigitsPage() {
           onClick={() => window.history.back()}
           className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl py-4 text-2xl font-bold text-zinc-300 transition-all duration-300 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105 active:scale-95"
         >
-          ⬅ Back
+          Back
         </button>
       </div>
     </div>

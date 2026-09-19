@@ -481,7 +481,7 @@ useEffect(() => {
     active:scale-95
   "
 >
-  ⬅ Back
+  Back
 </button>
 
       </div>
@@ -565,7 +565,7 @@ if (hp <= 0) {
           active:scale-95
         "
       >
-        ⬅ Back
+        Back
       </button>
     </div>
   </div>
@@ -732,7 +732,7 @@ hover:scale-105
 active:scale-95
 "
 >
-  ⬅ Back
+  Back
 </button>
   </div>
 );

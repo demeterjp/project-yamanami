@@ -7,7 +7,7 @@ export default function NumbersPage() {
     <div className="min-h-screen text-white flex flex-col items-center p-10 gap-10">
 
       <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-6 border border-orange-500/30">
-        <h1 className="text-6xl font-bold text-orange-300 text-center">
+        <h1 className="text-6xl font-bold text-red-500 text-center">
           数字 Numbers
         </h1>
       </div>
@@ -53,7 +53,7 @@ export default function NumbersPage() {
             active:scale-95
           "
         >
-          ⬅ Back
+          Back
         </button>
 
       </div>

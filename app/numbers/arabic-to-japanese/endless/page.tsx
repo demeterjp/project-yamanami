@@ -25,6 +25,15 @@ export default function ArabicToJapaneseEndlessPage() {
     if (phase === "playing" && !locked) inputRef.current?.focus();
   }, [phase, current, locked]);
 
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key !== "Enter") return;
+      if (phase === "setup" || phase === "gameover") startGame();
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  });
+
   function startGame() {
     setDigitLength(1);
     setTierProgress(0);
@@ -83,13 +92,13 @@ export default function ArabicToJapaneseEndlessPage() {
   if (phase === "setup") {
     return (
       <div className="min-h-screen text-white flex flex-col items-center justify-center gap-12 px-6">
-        <div className="w-full max-w-xl bg-zinc-900 rounded-3xl border border-amber-500/30 p-8">
-                    <h1 className="text-6xl font-bold text-center text-amber-400 flex items-center justify-center gap-3">
-            <HeartIcon className="w-12 h-12" /> Endless <HeartIcon className="w-12 h-12" />
+        <div className="w-full max-w-xl bg-zinc-900 rounded-3xl border border-rose-500/30 p-8">
+          <h1 className="text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-rose-400 flex items-center justify-center gap-3">
+            <HeartIcon className="w-12 h-12 text-rose-400" /> Survival Count
           </h1>
         </div>
 
-        <div className="w-full max-w-xl bg-zinc-900 rounded-2xl border border-amber-500/30 p-6 flex flex-col gap-3">
+        <div className="w-full max-w-xl bg-zinc-900 rounded-2xl border border-rose-500/30 p-6 flex flex-col gap-3">
           <p className="text-center text-xl text-zinc-400">
             Type the reading in romaji — it turns into kanji once it's correct.
           </p>
@@ -100,7 +109,7 @@ export default function ArabicToJapaneseEndlessPage() {
 
         <button
           onClick={startGame}
-          className="w-full max-w-xl py-6 rounded-2xl bg-green-500 text-4xl font-bold hover:bg-green-600 hover:scale-105 transition-all shadow-[0_0_30px_rgba(34,197,94,0.6)]"
+          className="w-full max-w-xl py-6 rounded-2xl bg-rose-600 text-4xl font-bold hover:bg-rose-500 hover:scale-105 transition-all shadow-[0_0_30px_rgba(244,63,94,0.5)]"
         >
           Start
         </button>
@@ -110,7 +119,7 @@ export default function ArabicToJapaneseEndlessPage() {
             onClick={() => window.history.back()}
             className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl py-6 text-2xl font-bold text-zinc-300 transition-all duration-300 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105 active:scale-95"
           >
-            ⬅ Back
+            Back
           </button>
         </div>
       </div>
@@ -119,14 +128,14 @@ export default function ArabicToJapaneseEndlessPage() {
 
   if (phase === "gameover") {
     return (
-      <div className="min-h-screen text-white flex items-center justify-center">
-        <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-10 border border-amber-500/30 flex flex-col items-center gap-8">
+      <div className="min-h-screen text-white flex items-center justify-center px-6">
+        <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-10 border border-rose-500/30 flex flex-col items-center gap-6">
           <h1 className="text-7xl font-bold text-red-400">Game Over</h1>
           <p className="text-3xl">You reached {digitLength}-digit numbers</p>
           <p className="text-3xl">Total correct: {totalCorrect}</p>
           <button
             onClick={startGame}
-            className="bg-amber-500 hover:bg-amber-600 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold"
+            className="bg-rose-500 hover:bg-rose-600 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold"
           >
             Try Again
           </button>
@@ -134,7 +143,7 @@ export default function ArabicToJapaneseEndlessPage() {
             onClick={() => window.history.back()}
             className="bg-zinc-800 hover:bg-zinc-700 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold border border-zinc-600 text-zinc-300 hover:text-red-500 hover:border-red-500"
           >
-            ⬅ Back
+            Back
           </button>
         </div>
       </div>
@@ -143,30 +152,30 @@ export default function ArabicToJapaneseEndlessPage() {
 
   return (
     <div className="min-h-screen text-white flex flex-col items-center justify-center gap-6 px-6">
-      <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-8 border border-amber-500/20">
-                <h1 className="text-5xl font-bold text-amber-400 text-center flex items-center justify-center gap-3">
-          <HeartIcon className="w-10 h-10" /> Endless <HeartIcon className="w-10 h-10" />
+      <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-8 border border-rose-500/20">
+        <h1 className="text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-rose-400 flex items-center justify-center gap-3">
+          <HeartIcon className="w-10 h-10 text-rose-400" /> Survival Count
         </h1>
       </div>
 
-      <div className="bg-zinc-900 border border-amber-500/30 rounded-2xl px-8 py-4 flex gap-8 text-xl font-bold shadow-[0_0_15px_rgba(245,158,11,0.15)] flex-wrap justify-center items-center">
+      <div className="bg-zinc-900 border border-rose-500/30 rounded-2xl px-8 py-4 flex gap-8 text-xl font-bold shadow-[0_0_15px_rgba(244,63,94,0.15)] flex-wrap justify-center items-center">
         <p>{digitLength}-digit</p>
         <p>{tierProgress} / 5</p>
         <p>Total correct: {totalCorrect}</p>
-                        <p className="flex gap-1">
+        <p className="flex gap-1">
           {[0, 1, 2].map((i) => (
             <HeartIcon
               key={i}
               className={`w-7 h-7 transition-all ${
-                i < hearts ? "text-red-500 drop-shadow-[0_0_6px_rgba(239,68,68,0.8)]" : "text-zinc-700"
+                i < hearts ? "text-rose-500 drop-shadow-[0_0_6px_rgba(244,63,94,0.8)]" : "text-zinc-700"
               }`}
             />
           ))}
         </p>
       </div>
 
-      <div className="w-72 h-72 max-w-full bg-zinc-900 border border-amber-500/40 rounded-3xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(245,158,11,0.2)]">
-        <span className="text-7xl font-bold">{current}</span>
+      <div className="w-full max-w-2xl min-h-[9rem] bg-zinc-900 border border-rose-500/40 rounded-3xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(244,63,94,0.2)] px-4 py-6">
+        <span className="text-4xl sm:text-5xl md:text-6xl font-bold text-center break-words">{current}</span>
         {result && (
           <p
             className={`mt-4 text-3xl font-bold h-10 ${
@@ -197,13 +206,13 @@ export default function ArabicToJapaneseEndlessPage() {
           }
         }}
         placeholder="Type romaji..."
-        className="w-[400px] max-w-full px-6 py-4 rounded-2xl text-3xl text-center bg-zinc-900 text-white border border-purple-500 outline-none transition-all duration-300 shadow-[0_0_12px_rgba(168,85,247,0.35)] focus:shadow-[0_0_22px_rgba(168,85,247,0.8)] focus:border-purple-400 disabled:opacity-50"
+        className="w-full max-w-md px-6 py-4 rounded-2xl text-3xl text-center bg-zinc-900 text-white border border-purple-500 outline-none transition-all duration-300 shadow-[0_0_12px_rgba(168,85,247,0.35)] focus:shadow-[0_0_22px_rgba(168,85,247,0.8)] focus:border-purple-400 disabled:opacity-50"
       />
 
       <button
         onClick={checkAnswer}
         disabled={locked}
-        className="w-[500px] max-w-full py-5 rounded-2xl border border-amber-500 text-amber-400 text-2xl font-bold bg-zinc-900 hover:bg-zinc-800 transition shadow-[0_0_20px_rgba(245,158,11,0.3)] disabled:opacity-50"
+        className="w-full max-w-xl py-5 rounded-2xl border border-rose-500 text-rose-400 text-2xl font-bold bg-zinc-900 hover:bg-zinc-800 transition shadow-[0_0_20px_rgba(244,63,94,0.3)] disabled:opacity-50"
       >
         Check
       </button>
@@ -213,7 +222,7 @@ export default function ArabicToJapaneseEndlessPage() {
           onClick={() => window.history.back()}
           className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl py-4 text-2xl font-bold text-zinc-300 transition-all duration-300 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105 active:scale-95"
         >
-          ⬅ Back
+          Back
         </button>
       </div>
     </div>
