@@ -20,20 +20,20 @@ export default function Home() {
 <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-20 flex flex-col gap-6 sm:gap-10 lg:gap-14">
 
   <div>
-    <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tight text-zinc-100 drop-shadow-[0_0_35px_#ff4fd8] leading-none">
+    <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl min-[1920px]:text-[9.5rem] min-[2560px]:text-[12rem] min-[3840px]:text-[16rem] font-black tracking-tight text-zinc-100 drop-shadow-[0_0_35px_#ff4fd8] leading-none">
       YAMANAMI
     </h1>
-    <p className="text-white/90 text-xl sm:text-3xl md:text-4xl lg:text-5xl text-center mt-1">
+    <p className="text-white/90 text-xl sm:text-3xl md:text-4xl lg:text-5xl min-[1920px]:text-6xl min-[2560px]:text-7xl min-[3840px]:text-8xl text-center mt-1">
       山波
     </p>
   </div>
 
   <div className="flex flex-col items-center">
     <div className="mb-8 [@media(max-height:800px)]:mb-4">
-      <h2 className="text-5xl text-center text-white font-bold tracking-widest drop-shadow-[0_0_20px_#ffffff]">
+      <h2 className="text-5xl min-[1920px]:text-6xl min-[2560px]:text-7xl min-[3840px]:text-8xl text-center text-white font-bold tracking-widest drop-shadow-[0_0_20px_#ffffff]">
         PRACTICE
       </h2>
-      <p className="text-zinc-300 text-center text-2xl tracking-[0.4em] text-center mt-1">
+      <p className="text-zinc-300 text-center text-2xl min-[1920px]:text-3xl min-[2560px]:text-4xl min-[3840px]:text-5xl tracking-[0.4em] text-center mt-1">
         練習
       </p>
     </div>
@@ -53,22 +53,22 @@ hover:bg-emerald-700
     active:translate-y-1
     transition-all
     duration-150
-    px-12 [@media(max-height:800px)]:px-8
-    py-5 [@media(max-height:800px)]:py-3
+    px-12 [@media(max-height:800px)]:px-8 min-[1920px]:px-16 min-[2560px]:px-20 min-[3840px]:px-24
+    py-5 [@media(max-height:800px)]:py-3 min-[1920px]:py-6 min-[2560px]:py-8 min-[3840px]:py-10
     rounded-2xl
-    text-3xl [@media(max-height:800px)]:text-2xl
+    text-3xl [@media(max-height:800px)]:text-2xl min-[1920px]:text-4xl min-[2560px]:text-5xl min-[3840px]:text-6xl
     font-bold
     shadow-[0_0_25px_#10b981]
     flex
     items-center
-    gap-4
+    gap-4 min-[1920px]:gap-6 min-[2560px]:gap-8 min-[3840px]:gap-10
   "
 >
-  <div className="w-16 flex justify-center">
-  <span className="text-5xl [@media(max-height:800px)]:text-4xl">あ</span>
+  <div className="w-16 min-[1920px]:w-20 min-[2560px]:w-24 min-[3840px]:w-28 flex justify-center">
+  <span className="text-5xl [@media(max-height:800px)]:text-4xl min-[1920px]:text-6xl min-[2560px]:text-7xl min-[3840px]:text-8xl">あ</span>
 </div>
 
-<div className="w-40">
+<div className="w-40 min-[1920px]:w-48 min-[2560px]:w-56 min-[3840px]:w-64">
   <span className="mt-1 block">
     Hiragana
   </span>
@@ -89,7 +89,7 @@ hover:bg-emerald-700
 onMouseLeave={() => setHoveredMode("")}
   className="
   relative
-    mt-6 [@media(max-height:800px)]:mt-3
+    mt-6 [@media(max-height:800px)]:mt-3 min-[1920px]:mt-8 min-[2560px]:mt-10 min-[3840px]:mt-14
     bg-purple-600
     border
 border-purple-300/60
@@ -99,22 +99,22 @@ hover:bg-purple-700
     active:translate-y-1
     transition-all
     duration-150
-    px-12 [@media(max-height:800px)]:px-8
-    py-5 [@media(max-height:800px)]:py-3
+    px-12 [@media(max-height:800px)]:px-8 min-[1920px]:px-16 min-[2560px]:px-20 min-[3840px]:px-24
+    py-5 [@media(max-height:800px)]:py-3 min-[1920px]:py-6 min-[2560px]:py-8 min-[3840px]:py-10
     rounded-2xl
-    text-3xl [@media(max-height:800px)]:text-2xl
+    text-3xl [@media(max-height:800px)]:text-2xl min-[1920px]:text-4xl min-[2560px]:text-5xl min-[3840px]:text-6xl
     font-bold
     shadow-[0_0_25px_#9333ea]
     flex
     items-center
-    gap-4
+    gap-4 min-[1920px]:gap-6 min-[2560px]:gap-8 min-[3840px]:gap-10
   "
 >
-  <div className="w-16 flex justify-center">
-  <span className="text-5xl [@media(max-height:800px)]:text-4xl">ア</span>
+  <div className="w-16 min-[1920px]:w-20 min-[2560px]:w-24 min-[3840px]:w-28 flex justify-center">
+  <span className="text-5xl [@media(max-height:800px)]:text-4xl min-[1920px]:text-6xl min-[2560px]:text-7xl min-[3840px]:text-8xl">ア</span>
 </div>
 
-<div className="w-40">
+<div className="w-40 min-[1920px]:w-48 min-[2560px]:w-56 min-[3840px]:w-64">
   <span className="mt-1 block">
     Katakana
   </span>
@@ -134,7 +134,7 @@ hover:bg-purple-700
   onMouseLeave={() => setHoveredMode("")}
   className="
     relative
-    mt-6 [@media(max-height:800px)]:mt-3
+    mt-6 [@media(max-height:800px)]:mt-3 min-[1920px]:mt-8 min-[2560px]:mt-10 min-[3840px]:mt-14
     bg-cyan-500
     border
     border-cyan-300/60
@@ -144,22 +144,22 @@ hover:bg-purple-700
     active:translate-y-1
     transition-all
     duration-150
-    px-12 [@media(max-height:800px)]:px-8
-    py-5 [@media(max-height:800px)]:py-3
+    px-12 [@media(max-height:800px)]:px-8 min-[1920px]:px-16 min-[2560px]:px-20 min-[3840px]:px-24
+    py-5 [@media(max-height:800px)]:py-3 min-[1920px]:py-6 min-[2560px]:py-8 min-[3840px]:py-10
     rounded-2xl
-    text-3xl [@media(max-height:800px)]:text-2xl
+    text-3xl [@media(max-height:800px)]:text-2xl min-[1920px]:text-4xl min-[2560px]:text-5xl min-[3840px]:text-6xl
     font-bold
     shadow-[0_0_25px_#06b6d4]
     flex
     items-center
-    gap-4
+    gap-4 min-[1920px]:gap-6 min-[2560px]:gap-8 min-[3840px]:gap-10
   "
 >
-<div className="w-16 flex justify-center">
-  <span className="text-5xl [@media(max-height:800px)]:text-4xl">滝</span>
+<div className="w-16 min-[1920px]:w-20 min-[2560px]:w-24 min-[3840px]:w-28 flex justify-center">
+  <span className="text-5xl [@media(max-height:800px)]:text-4xl min-[1920px]:text-6xl min-[2560px]:text-7xl min-[3840px]:text-8xl">滝</span>
 </div>
 
-<div className="w-40">
+<div className="w-40 min-[1920px]:w-48 min-[2560px]:w-56 min-[3840px]:w-64">
   <span className="mt-1 block">
     Kana Fall
   </span>
@@ -178,7 +178,7 @@ hover:bg-purple-700
   onMouseLeave={() => setHoveredMode("")}
   className="
     relative
-    mt-6 [@media(max-height:800px)]:mt-3
+    mt-6 [@media(max-height:800px)]:mt-3 min-[1920px]:mt-8 min-[2560px]:mt-10 min-[3840px]:mt-14
     bg-orange-500
     border
     border-orange-300/60
@@ -188,22 +188,22 @@ hover:bg-purple-700
     active:translate-y-1
     transition-all
     duration-150
-    px-12 [@media(max-height:800px)]:px-8
-    py-5 [@media(max-height:800px)]:py-3
+    px-12 [@media(max-height:800px)]:px-8 min-[1920px]:px-16 min-[2560px]:px-20 min-[3840px]:px-24
+    py-5 [@media(max-height:800px)]:py-3 min-[1920px]:py-6 min-[2560px]:py-8 min-[3840px]:py-10
     rounded-2xl
-    text-3xl [@media(max-height:800px)]:text-2xl
+    text-3xl [@media(max-height:800px)]:text-2xl min-[1920px]:text-4xl min-[2560px]:text-5xl min-[3840px]:text-6xl
     font-bold
     shadow-[0_0_25px_#f97316]
     flex
     items-center
-    gap-4
+    gap-4 min-[1920px]:gap-6 min-[2560px]:gap-8 min-[3840px]:gap-10
   "
 >
-  <div className="w-16 flex justify-center">
-  <span className="text-5xl [@media(max-height:800px)]:text-4xl whitespace-nowrap">数字</span>
+  <div className="w-16 min-[1920px]:w-20 min-[2560px]:w-24 min-[3840px]:w-28 flex justify-center">
+  <span className="text-5xl [@media(max-height:800px)]:text-4xl min-[1920px]:text-6xl min-[2560px]:text-7xl min-[3840px]:text-8xl whitespace-nowrap">数字</span>
 </div>
 
-  <div className="w-40">
+  <div className="w-40 min-[1920px]:w-48 min-[2560px]:w-56 min-[3840px]:w-64">
     <span className="mt-1 block">
       Numbers
     </span>
