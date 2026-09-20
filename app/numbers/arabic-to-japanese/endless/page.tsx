@@ -1,13 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { toKanjiNumber, toRomaji, normalizeRomaji, randomInRange, digitRange } from "../../kanjiUtils";
+import { toKanjiNumber, toRomaji, normalizeRomaji, generateUniqueNumbers } from "../../kanjiUtils";
 import { HeartIcon } from "../../icons";
-
-function randomNumberFor(digitLength: number): number {
-  const [min, max] = digitRange(digitLength);
-  return randomInRange(min, max);
-}
 
 export default function ArabicToJapaneseEndlessPage() {
   const [phase, setPhase] = useState<"setup" | "playing" | "gameover">("setup");
@@ -15,26 +10,49 @@ export default function ArabicToJapaneseEndlessPage() {
   const [tierProgress, setTierProgress] = useState(0);
   const [hearts, setHearts] = useState(3);
   const [totalCorrect, setTotalCorrect] = useState(0);
-  const [current, setCurrent] = useState(0);
+  const [tierNumbers, setTierNumbers] = useState<number[]>([]);
+  const [tierIndex, setTierIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [result, setResult] = useState<"" | "Correct" | "Wrong">("");
   const [locked, setLocked] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const focusBtnRef = useRef<HTMLButtonElement>(null);
+
+  const current = tierNumbers[tierIndex] ?? 0;
 
   useEffect(() => {
     if (phase === "playing" && !locked) inputRef.current?.focus();
   }, [phase, current, locked]);
+
+  useEffect(() => {
+    if (phase === "setup" || phase === "gameover") {
+      const timer = setTimeout(() => {
+        focusBtnRef.current?.focus();
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [phase]);
 
   function startGame() {
     setDigitLength(1);
     setTierProgress(0);
     setHearts(3);
     setTotalCorrect(0);
-    setCurrent(randomNumberFor(1));
+    setTierNumbers(generateUniqueNumbers(5, 1));
+    setTierIndex(0);
     setAnswer("");
     setResult("");
     setLocked(false);
     setPhase("playing");
+  }
+
+  function advanceWithinTier(currentDigitLength: number) {
+    if (tierIndex + 1 >= tierNumbers.length) {
+      setTierNumbers(generateUniqueNumbers(5, currentDigitLength));
+      setTierIndex(0);
+    } else {
+      setTierIndex(tierIndex + 1);
+    }
   }
 
   function checkAnswer() {
@@ -52,10 +70,11 @@ export default function ArabicToJapaneseEndlessPage() {
           const nextLength = digitLength + 1;
           setDigitLength(nextLength);
           setTierProgress(0);
-          setCurrent(randomNumberFor(nextLength));
+          setTierNumbers(generateUniqueNumbers(5, nextLength));
+          setTierIndex(0);
         } else {
           setTierProgress(newProgress);
-          setCurrent(randomNumberFor(digitLength));
+          advanceWithinTier(digitLength);
         }
         setAnswer("");
         setResult("");
@@ -71,7 +90,7 @@ export default function ArabicToJapaneseEndlessPage() {
           setPhase("gameover");
         } else {
           setHearts(newHearts);
-          setCurrent(randomNumberFor(digitLength));
+          advanceWithinTier(digitLength);
           setAnswer("");
           setResult("");
           setLocked(false);
@@ -94,12 +113,12 @@ export default function ArabicToJapaneseEndlessPage() {
             Type the reading in romaji — it turns into kanji once it's correct.
           </p>
           <p className="text-center text-xl text-zinc-400">
-            5 correct answers move you to longer numbers. You have 3 lives.
+            5 correct in a row moves you to longer numbers. You have 3 lives.
           </p>
         </div>
 
         <button
-          autoFocus
+          ref={focusBtnRef}
           onClick={startGame}
           className="w-full max-w-xl py-6 rounded-2xl bg-rose-600 text-4xl font-bold hover:bg-rose-500 hover:scale-105 transition-all shadow-[0_0_30px_rgba(244,63,94,0.5)]"
         >
@@ -111,7 +130,7 @@ export default function ArabicToJapaneseEndlessPage() {
             onClick={() => window.history.back()}
             className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl py-6 text-2xl font-bold text-zinc-300 transition-all duration-300 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105 active:scale-95"
           >
-            Back
+            ⬅ Back
           </button>
         </div>
       </div>
@@ -126,6 +145,7 @@ export default function ArabicToJapaneseEndlessPage() {
           <p className="text-3xl">You reached {digitLength}-digit numbers</p>
           <p className="text-3xl">Total correct: {totalCorrect}</p>
           <button
+            ref={focusBtnRef}
             onClick={startGame}
             className="bg-rose-500 hover:bg-rose-600 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold"
           >
@@ -135,7 +155,7 @@ export default function ArabicToJapaneseEndlessPage() {
             onClick={() => window.history.back()}
             className="bg-zinc-800 hover:bg-zinc-700 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold border border-zinc-600 text-zinc-300 hover:text-red-500 hover:border-red-500"
           >
-            Back
+            ⬅ Back
           </button>
         </div>
       </div>
@@ -214,7 +234,7 @@ export default function ArabicToJapaneseEndlessPage() {
           onClick={() => window.history.back()}
           className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl py-4 text-2xl font-bold text-zinc-300 transition-all duration-300 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105 active:scale-95"
         >
-          Back
+          ⬅ Back
         </button>
       </div>
     </div>

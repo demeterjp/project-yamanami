@@ -1,13 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { toKanjiNumber, randomInRange, digitRange } from "../../kanjiUtils";
+import { toKanjiNumber, generateUniqueNumbers } from "../../kanjiUtils";
 import { HeartIcon } from "../../icons";
-
-function randomNumberFor(digitLength: number): number {
-  const [min, max] = digitRange(digitLength);
-  return randomInRange(min, max);
-}
 
 export default function JapaneseToArabicEndlessPage() {
   const [phase, setPhase] = useState<"setup" | "playing" | "gameover">("setup");
@@ -15,11 +10,14 @@ export default function JapaneseToArabicEndlessPage() {
   const [tierProgress, setTierProgress] = useState(0);
   const [hearts, setHearts] = useState(3);
   const [totalCorrect, setTotalCorrect] = useState(0);
-  const [current, setCurrent] = useState(0);
+  const [tierNumbers, setTierNumbers] = useState<number[]>([]);
+  const [tierIndex, setTierIndex] = useState(0);
   const [input, setInput] = useState("");
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const focusBtnRef = useRef<HTMLButtonElement>(null);
+
+  const current = tierNumbers[tierIndex] ?? 0;
 
   useEffect(() => {
     if (phase === "playing" && feedback === null) inputRef.current?.focus();
@@ -39,10 +37,20 @@ export default function JapaneseToArabicEndlessPage() {
     setTierProgress(0);
     setHearts(3);
     setTotalCorrect(0);
-    setCurrent(randomNumberFor(1));
+    setTierNumbers(generateUniqueNumbers(5, 1));
+    setTierIndex(0);
     setInput("");
     setFeedback(null);
     setPhase("playing");
+  }
+
+  function advanceWithinTier(currentDigitLength: number) {
+    if (tierIndex + 1 >= tierNumbers.length) {
+      setTierNumbers(generateUniqueNumbers(5, currentDigitLength));
+      setTierIndex(0);
+    } else {
+      setTierIndex(tierIndex + 1);
+    }
   }
 
   function handleSubmit() {
@@ -59,10 +67,11 @@ export default function JapaneseToArabicEndlessPage() {
           const nextLength = digitLength + 1;
           setDigitLength(nextLength);
           setTierProgress(0);
-          setCurrent(randomNumberFor(nextLength));
+          setTierNumbers(generateUniqueNumbers(5, nextLength));
+          setTierIndex(0);
         } else {
           setTierProgress(newProgress);
-          setCurrent(randomNumberFor(digitLength));
+          advanceWithinTier(digitLength);
         }
         setInput("");
         setFeedback(null);
@@ -77,7 +86,7 @@ export default function JapaneseToArabicEndlessPage() {
           setPhase("gameover");
         } else {
           setHearts(newHearts);
-          setCurrent(randomNumberFor(digitLength));
+          advanceWithinTier(digitLength);
           setInput("");
           setFeedback(null);
         }
@@ -99,7 +108,7 @@ export default function JapaneseToArabicEndlessPage() {
             A number appears in kanji. Type the Arabic digits.
           </p>
           <p className="text-center text-xl text-zinc-400">
-            Numbers get longer after every 5 correct answers. You have 3 lives.
+            5 correct in a row moves you to longer numbers. You have 3 lives.
           </p>
         </div>
 
