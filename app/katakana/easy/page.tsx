@@ -129,36 +129,29 @@ export default function KatakanaPage() {
   </p>
 </div>
 
-<button
-  onClick={() => (window.location.href = "/katakana")}
-  className="
-    fixed
-    bottom-6
-    left-1/2
-    -translate-x-1/2
-    z-50
-
-    w-[670px]
-    py-5
-
-    bg-zinc-900
-    border border-zinc-700
-    rounded-2xl
-
-    text-zinc-300
-    text-xl
-    font-bold
-
-    transition-all duration-300
-    hover:text-red-400
-    hover:border-red-400
-    hover:shadow-[0_0_20px_rgba(248,113,113,0.5)]
-    hover:scale-105
-    active:scale-95
-  "
->
-  Back
-</button>
+      <button
+        onClick={() => (window.location.href = "/katakana")}
+        className="
+          w-full
+          max-w-2xl
+          mt-6
+          py-5
+          bg-zinc-900
+          border border-zinc-700
+          rounded-2xl
+          text-zinc-300
+          text-xl
+          font-bold
+          transition-all duration-300
+          hover:text-red-400
+          hover:border-red-400
+          hover:shadow-[0_0_20px_rgba(248,113,113,0.5)]
+          hover:scale-105
+          active:scale-95
+        "
+      >
+        Back
+      </button>
 
     </div>
 

@@ -17,15 +17,6 @@ export default function JapaneseToArabicDigitsPage() {
     if (phase === "playing" && feedback === null) inputRef.current?.focus();
   }, [phase, index, feedback]);
 
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key !== "Enter") return;
-      if (phase === "setup" || phase === "results") startGame();
-    }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  });
-
   function startGame() {
     const nums = generateUniqueNumbers(10, digitLength);
     setNumbers(nums);
@@ -80,6 +71,7 @@ export default function JapaneseToArabicDigitsPage() {
         </div>
 
         <button
+          autoFocus
           onClick={startGame}
           className="w-full max-w-xl py-6 rounded-2xl bg-violet-600 text-4xl font-bold hover:bg-violet-500 hover:scale-105 transition-all shadow-[0_0_30px_rgba(139,92,246,0.5)]"
         >

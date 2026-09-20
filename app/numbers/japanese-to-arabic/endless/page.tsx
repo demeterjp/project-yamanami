@@ -1,86 +1,112 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { toKanjiNumber, toRomaji, normalizeRomaji, generateUniqueNumbers } from "../../kanjiUtils";
+import { toKanjiNumber, randomInRange, digitRange } from "../../kanjiUtils";
+import { HeartIcon } from "../../icons";
 
-export default function ArabicToJapaneseDigitsPage() {
-  const [phase, setPhase] = useState<"setup" | "playing" | "results">("setup");
-  const [digitLength, setDigitLength] = useState(2);
-  const [numbers, setNumbers] = useState<number[]>([]);
-  const [index, setIndex] = useState(0);
-  const [answer, setAnswer] = useState("");
-  const [score, setScore] = useState(0);
-  const [result, setResult] = useState("");
+function randomNumberFor(digitLength: number): number {
+  const [min, max] = digitRange(digitLength);
+  return randomInRange(min, max);
+}
+
+export default function JapaneseToArabicEndlessPage() {
+  const [phase, setPhase] = useState<"setup" | "playing" | "gameover">("setup");
+  const [digitLength, setDigitLength] = useState(1);
+  const [tierProgress, setTierProgress] = useState(0);
+  const [hearts, setHearts] = useState(3);
+  const [totalCorrect, setTotalCorrect] = useState(0);
+  const [current, setCurrent] = useState(0);
+  const [input, setInput] = useState("");
+  const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const focusBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (result) {
-      const timer = setTimeout(() => setResult(""), 1000);
+    if (phase === "playing" && feedback === null) inputRef.current?.focus();
+  }, [phase, current, feedback]);
+
+  useEffect(() => {
+    if (phase === "setup" || phase === "gameover") {
+      const timer = setTimeout(() => {
+        focusBtnRef.current?.focus();
+      }, 400);
       return () => clearTimeout(timer);
     }
-  }, [result]);
-
-  useEffect(() => {
-    if (phase === "playing") inputRef.current?.focus();
-  }, [phase, index]);
+  }, [phase]);
 
   function startGame() {
-    const nums = generateUniqueNumbers(10, digitLength);
-    setNumbers(nums);
-    setIndex(0);
-    setScore(0);
-    setAnswer("");
-    setResult("");
+    setDigitLength(1);
+    setTierProgress(0);
+    setHearts(3);
+    setTotalCorrect(0);
+    setCurrent(randomNumberFor(1));
+    setInput("");
+    setFeedback(null);
     setPhase("playing");
   }
 
-  function checkAnswer() {
-    const current = numbers[index];
-    const correctKanji = toKanjiNumber(current);
+  function handleSubmit() {
+    if (feedback !== null) return;
+    const isCorrect = Number(input) === current;
 
-    if (answer === correctKanji) {
-      setScore((s) => s + 1);
-      setResult("Correct");
+    if (isCorrect) {
+      setFeedback("correct");
+      setTotalCorrect((c) => c + 1);
+      const newProgress = tierProgress + 1;
+
+      setTimeout(() => {
+        if (newProgress >= 5) {
+          const nextLength = digitLength + 1;
+          setDigitLength(nextLength);
+          setTierProgress(0);
+          setCurrent(randomNumberFor(nextLength));
+        } else {
+          setTierProgress(newProgress);
+          setCurrent(randomNumberFor(digitLength));
+        }
+        setInput("");
+        setFeedback(null);
+      }, 600);
     } else {
-      setResult("Wrong");
-    }
+      setFeedback("wrong");
+      const newHearts = hearts - 1;
 
-    if (index + 1 >= numbers.length) {
-      setPhase("results");
-      return;
+      setTimeout(() => {
+        if (newHearts <= 0) {
+          setHearts(0);
+          setPhase("gameover");
+        } else {
+          setHearts(newHearts);
+          setCurrent(randomNumberFor(digitLength));
+          setInput("");
+          setFeedback(null);
+        }
+      }, 1200);
     }
-
-    setIndex((i) => i + 1);
-    setAnswer("");
   }
 
   if (phase === "setup") {
     return (
-      <div className="min-h-screen text-white flex flex-col items-center justify-center gap-10 px-6">
-        <div className="w-full max-w-xl bg-zinc-900 rounded-3xl border border-orange-500/30 p-8">
-          <h1 className="text-5xl font-bold text-center text-orange-400">◆ Digit Length ◆</h1>
+      <div className="min-h-screen text-white flex flex-col items-center justify-center gap-12 px-6">
+        <div className="w-full max-w-xl bg-zinc-900 rounded-3xl border border-fuchsia-500/30 p-8">
+          <h1 className="text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-fuchsia-400 flex items-center justify-center gap-3">
+            <HeartIcon className="w-12 h-12 text-fuchsia-400" /> Survival Count
+          </h1>
         </div>
 
-        <div className="w-full max-w-xl bg-zinc-900 rounded-2xl border border-orange-500/30 p-8 flex flex-col items-center gap-6">
-          <p className="text-zinc-400 text-xl text-center">How many digits should the numbers have?</p>
-          <span className="text-7xl font-bold text-orange-400">{digitLength}</span>
-          <input
-            type="range"
-            min={1}
-            max={10}
-            value={digitLength}
-            onChange={(e) => setDigitLength(Number(e.target.value))}
-            className="w-full accent-orange-500"
-          />
-          <div className="flex justify-between w-full text-zinc-500 text-sm px-1">
-            <span>1</span>
-            <span>10</span>
-          </div>
+        <div className="w-full max-w-xl bg-zinc-900 rounded-2xl border border-fuchsia-500/30 p-6 flex flex-col gap-3">
+          <p className="text-center text-xl text-zinc-400">
+            A number appears in kanji. Type the Arabic digits.
+          </p>
+          <p className="text-center text-xl text-zinc-400">
+            5 correct in a row moves you to longer numbers. You have 3 lives.
+          </p>
         </div>
 
         <button
+          ref={focusBtnRef}
           onClick={startGame}
-          className="w-full max-w-xl py-6 rounded-2xl bg-orange-600 text-4xl font-bold hover:bg-red-600 hover:scale-105 transition-all shadow-[0_0_30px_rgba(249,115,22,0.5)]"
+          className="w-full max-w-xl py-6 rounded-2xl bg-fuchsia-600 text-4xl font-bold hover:bg-fuchsia-500 hover:scale-105 transition-all shadow-[0_0_30px_rgba(217,70,239,0.5)]"
         >
           Start
         </button>
@@ -90,93 +116,94 @@ export default function ArabicToJapaneseDigitsPage() {
             onClick={() => window.history.back()}
             className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl py-6 text-2xl font-bold text-zinc-300 transition-all duration-300 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105 active:scale-95"
           >
-            Back
+            ⬅ Back
           </button>
         </div>
       </div>
     );
   }
 
-  if (phase === "results") {
+  if (phase === "gameover") {
     return (
-      <div className="min-h-screen text-white flex items-center justify-center">
-        <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-10 border border-orange-500/30 flex flex-col items-center gap-8">
-          <h1 className="text-7xl font-bold text-orange-400">Complete!</h1>
-          <p className="text-4xl font-bold text-white">Score: {score} / {numbers.length}</p>
+      <div className="min-h-screen text-white flex items-center justify-center px-6">
+        <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-10 border border-fuchsia-500/30 flex flex-col items-center gap-6">
+          <h1 className="text-7xl font-bold text-red-400">Game Over</h1>
+          <p className="text-3xl">You reached {digitLength}-digit numbers</p>
+          <p className="text-3xl">Total correct: {totalCorrect}</p>
           <button
-            onClick={() => setPhase("setup")}
-            className="bg-red-600 hover:bg-red-700 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold"
+            ref={focusBtnRef}
+            onClick={startGame}
+            className="bg-fuchsia-500 hover:bg-fuchsia-600 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold"
           >
-            Retry
+            Try Again
           </button>
           <button
             onClick={() => window.history.back()}
             className="bg-zinc-800 hover:bg-zinc-700 hover:scale-105 active:scale-95 transition-all px-20 py-4 rounded-2xl text-2xl font-bold border border-zinc-600 text-zinc-300 hover:text-red-500 hover:border-red-500"
           >
-            Back
+            ⬅ Back
           </button>
         </div>
       </div>
     );
   }
 
-  const current = numbers[index];
-
   return (
-    <div className="min-h-screen text-white flex flex-col items-center justify-center gap-8 px-6">
-      <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-8 border border-orange-500/20">
-        <h1 className="text-5xl font-bold text-orange-400 text-center">◆ Digit Length ◆</h1>
+    <div className="min-h-screen text-white flex flex-col items-center justify-center gap-6 px-6">
+      <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-8 border border-fuchsia-500/20">
+        <h1 className="text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-fuchsia-400 flex items-center justify-center gap-3">
+          <HeartIcon className="w-10 h-10 text-fuchsia-400" /> Survival Count
+        </h1>
       </div>
 
-      <div className="w-[500px] max-w-full h-4 bg-zinc-800 rounded-full overflow-hidden">
-        <div
-          className="h-full bg-orange-400 transition-all duration-300"
-          style={{ width: `${(index / numbers.length) * 100}%` }}
-        />
+      <div className="bg-zinc-900 border border-fuchsia-500/30 rounded-2xl px-8 py-4 flex gap-8 text-xl font-bold shadow-[0_0_15px_rgba(217,70,239,0.15)] flex-wrap justify-center items-center">
+        <p>{digitLength}-digit</p>
+        <p>{tierProgress} / 5</p>
+        <p>Total correct: {totalCorrect}</p>
+        <p className="flex gap-1">
+          {[0, 1, 2].map((i) => (
+            <HeartIcon
+              key={i}
+              className={`w-7 h-7 transition-all ${
+                i < hearts ? "text-fuchsia-500 drop-shadow-[0_0_6px_rgba(217,70,239,0.8)]" : "text-zinc-700"
+              }`}
+            />
+          ))}
+        </p>
       </div>
 
-      <div className="bg-zinc-900 border border-orange-500/30 rounded-2xl px-8 py-4 flex gap-12 text-2xl font-bold shadow-[0_0_15px_rgba(249,115,22,0.15)]">
-        <p>Question: {index + 1}/{numbers.length}</p>
-        <p>Score: {score}</p>
-      </div>
-
-      <div className="w-72 h-72 max-w-full bg-zinc-900 border border-orange-500/40 rounded-3xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(249,115,22,0.2)]">
-        <span className="text-7xl font-bold">{current}</span>
-        {result && (
-          <p
-            className={`mt-4 text-3xl font-bold h-10 ${
-              result === "Correct"
-                ? "text-green-400 drop-shadow-[0_0_15px_rgba(34,197,94,0.9)]"
-                : "text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.9)]"
-            }`}
-          >
-            {result === "Correct" ? "Correct!" : "Wrong!"}
-          </p>
-        )}
+      <div className="w-full max-w-2xl min-h-[9rem] bg-zinc-900 border border-fuchsia-500/40 rounded-3xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(217,70,239,0.2)] px-4 py-6">
+        <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-center break-words leading-snug">
+          {toKanjiNumber(current)}
+        </span>
       </div>
 
       <input
-        type="text"
         ref={inputRef}
-        value={answer}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") checkAnswer();
-        }}
-        onChange={(e) => {
-          const value = e.target.value.toLowerCase();
-          if (normalizeRomaji(value) === toRomaji(current)) {
-            setAnswer(toKanjiNumber(current));
-          } else {
-            setAnswer(value);
-          }
-        }}
-        placeholder="Type romaji..."
-        className="w-[400px] max-w-full px-6 py-4 rounded-2xl text-3xl text-center bg-zinc-900 text-white border border-purple-500 outline-none transition-all duration-300 shadow-[0_0_12px_rgba(168,85,247,0.35)] focus:shadow-[0_0_22px_rgba(168,85,247,0.8)] focus:border-purple-400"
+        type="text"
+        inputMode="numeric"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+        disabled={feedback !== null}
+        placeholder="Type the number..."
+        className={`w-full max-w-md px-6 py-4 rounded-2xl text-3xl text-center bg-zinc-900 text-white border outline-none transition-all duration-300 ${
+          feedback === "correct"
+            ? "border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.6)]"
+            : feedback === "wrong"
+            ? "border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.8)]"
+            : "border-fuchsia-500 shadow-[0_0_12px_rgba(217,70,239,0.35)]"
+        }`}
       />
 
+      {feedback === "wrong" && (
+        <p className="text-red-400 text-2xl font-bold">Correct answer: {current}</p>
+      )}
+
       <button
-        onClick={checkAnswer}
-        className="w-[500px] max-w-full py-5 rounded-2xl border border-orange-500 text-orange-400 text-2xl font-bold bg-zinc-900 hover:bg-zinc-800 transition shadow-[0_0_20px_rgba(249,115,22,0.3)]"
+        onClick={handleSubmit}
+        disabled={feedback !== null}
+        className="w-full max-w-xl py-5 rounded-2xl border border-fuchsia-500 text-fuchsia-400 text-2xl font-bold bg-zinc-900 hover:bg-zinc-800 transition shadow-[0_0_20px_rgba(217,70,239,0.3)] disabled:opacity-50"
       >
         Check
       </button>
@@ -186,7 +213,7 @@ export default function ArabicToJapaneseDigitsPage() {
           onClick={() => window.history.back()}
           className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl py-4 text-2xl font-bold text-zinc-300 transition-all duration-300 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105 active:scale-95"
         >
-          Back
+          ⬅ Back
         </button>
       </div>
     </div>

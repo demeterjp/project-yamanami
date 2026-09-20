@@ -132,12 +132,9 @@ export default function HiraganaPage() {
       <button
         onClick={() => (window.location.href = "/hiragana")}
         className="
-          fixed
-          bottom-6
-          left-1/2
-          -translate-x-1/2
-          z-50
-          w-[670px]
+          w-full
+          max-w-2xl
+          mt-6
           py-5
           bg-zinc-900
           border border-zinc-700

@@ -25,15 +25,6 @@ export default function ArabicToJapaneseEndlessPage() {
     if (phase === "playing" && !locked) inputRef.current?.focus();
   }, [phase, current, locked]);
 
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key !== "Enter") return;
-      if (phase === "setup" || phase === "gameover") startGame();
-    }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  });
-
   function startGame() {
     setDigitLength(1);
     setTierProgress(0);
@@ -108,6 +99,7 @@ export default function ArabicToJapaneseEndlessPage() {
         </div>
 
         <button
+          autoFocus
           onClick={startGame}
           className="w-full max-w-xl py-6 rounded-2xl bg-rose-600 text-4xl font-bold hover:bg-rose-500 hover:scale-105 transition-all shadow-[0_0_30px_rgba(244,63,94,0.5)]"
         >
