@@ -19,7 +19,7 @@ export default function ArabicToJapaneseModePage() {
       >
         <h2 className="text-4xl font-bold text-orange-400">◆ Custom Drill</h2>
         <p className="text-zinc-400 text-xl">
-          Choose how many digits (1 to 10). Type the romaji reading for 10 numbers.
+          Choose how many digits you want to practice (1-10). Type the Japanese reading in romaji for each of 10 numbers.
         </p>
       </Link>
 
@@ -31,7 +31,7 @@ export default function ArabicToJapaneseModePage() {
           <HeartIcon className="w-8 h-8" /> Survival Count
         </h2>
         <p className="text-zinc-400 text-xl">
-          Type the reading in romaji. 3 lives — numbers get longer every 5 correct in a row.
+          Type the reading in romaji. You have 3 lives — numbers get longer after every 5 correct answers.
         </p>
       </Link>
 

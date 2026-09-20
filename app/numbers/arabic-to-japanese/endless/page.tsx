@@ -94,7 +94,7 @@ export default function ArabicToJapaneseEndlessPage() {
             Type the reading in romaji — it turns into kanji once it's correct.
           </p>
           <p className="text-center text-xl text-zinc-400">
-            5 correct in a row moves you to longer numbers. You have 3 lives.
+            5 correct answers move you to longer numbers. You have 3 lives.
           </p>
         </div>
 

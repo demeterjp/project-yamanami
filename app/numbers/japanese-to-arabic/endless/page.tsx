@@ -99,7 +99,7 @@ export default function JapaneseToArabicEndlessPage() {
             A number appears in kanji. Type the Arabic digits.
           </p>
           <p className="text-center text-xl text-zinc-400">
-            5 correct in a row moves you to longer numbers. You have 3 lives.
+            Numbers get longer after every 5 correct answers. You have 3 lives.
           </p>
         </div>
 
