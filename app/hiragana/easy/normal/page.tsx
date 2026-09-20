@@ -63,7 +63,10 @@ const hiragana = [
 
 function PlayPageContent() {
   const searchParams = useSearchParams();
-  const totalQuestions = parseInt(searchParams.get("questions") || "10", 10);
+  const requested = parseInt(searchParams.get("questions") || "10", 10);
+const totalQuestions = Number.isFinite(requested)
+  ? Math.min(Math.max(requested, 1), 46)
+  : 10;
 
   const [currentKana, setCurrentKana] = useState(
   hiragana[0]
@@ -74,7 +77,6 @@ function PlayPageContent() {
 
   const [kanaPool, setKanaPool] = useState<typeof hiragana>([]);
 
-const [showChart, setShowChart] = useState(false);
 
   const [question, setQuestion] = useState(1);
 

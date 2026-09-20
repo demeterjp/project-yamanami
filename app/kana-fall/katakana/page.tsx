@@ -245,7 +245,7 @@ useEffect(() => {
     setKanas((prev) => {
       const next = prev.map((k) => {
         let x = k.x + k.dx;
-        let y = k.y + 1;
+        const y = k.y + 1;
         let dx = k.dx;
 
         const width = k.kana.kana.length > 1 ? 128 : 112;

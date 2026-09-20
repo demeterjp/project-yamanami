@@ -7,9 +7,7 @@ import Sakura from "./components/Sakura";
 
 export default function Home() {
   
-  const [theme, setTheme] = useState("japan");
   const [hoveredMode, setHoveredMode] = useState("");
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
   
   return (
     <div

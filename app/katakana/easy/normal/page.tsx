@@ -63,7 +63,10 @@ const katakana = [
 
 function PlayPageContent() {
   const searchParams = useSearchParams();
-  const totalQuestions = parseInt(searchParams.get("questions") || "10", 10);
+  const requested = parseInt(searchParams.get("questions") || "10", 10);
+const totalQuestions = Number.isFinite(requested)
+  ? Math.min(Math.max(requested, 1), 46)
+  : 10;
 
   const [currentKana, setCurrentKana] = useState(
   katakana[0]
@@ -73,8 +76,6 @@ function PlayPageContent() {
   const [score, setScore] = useState(0);
 
   const [kanaPool, setKanaPool] = useState<typeof katakana>([]);
-
-const [showChart, setShowChart] = useState(false);
 
   const [question, setQuestion] = useState(1);
 

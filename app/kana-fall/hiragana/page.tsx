@@ -244,7 +244,7 @@ useEffect(() => {
     setKanas((prev) => {
       const next = prev.map((k) => {
         let x = k.x + k.dx;
-        let y = k.y + 1;
+        const y = k.y + 1;
         let dx = k.dx;
 
         // Odbicie od lewej i prawej strony
