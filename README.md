@@ -93,7 +93,7 @@ The application is designed for desktop use. It can be opened on mobile devices,
 
 Yamanami is my first web project.
 
-At the time of creating it, I was a third-year dentistry student and wanted to learn Japanese characters and numbers in a way that suited how I wanted to practice them. I couldn’t find exactly the kind of practice I was looking for, so I decided to build it myself.
+By the time I created this project, I was a third-year dentistry student and wanted to learn Japanese characters and numbers in a way that suited how I wanted to practice them. I couldn’t find exactly the kind of practice I was looking for, so I decided to build it myself.
 
 This project has also been a way for me to learn web development by building something from scratch. As my first project, it isn’t perfect, and there are areas that could be improved. However, working on Yamanami has helped me understand what I would approach differently in future projects.
 
