@@ -110,7 +110,7 @@ export default function ArabicToJapaneseEndlessPage() {
 
         <div className="w-full max-w-xl bg-zinc-900 rounded-2xl border border-rose-500/30 p-6 flex flex-col gap-3">
           <p className="text-center text-xl text-zinc-400">
-            Type the reading in romaji — it turns into kanji once it's correct.
+            Type the reading in romaji — it turns into kanji once it&apos;s correct.
           </p>
           <p className="text-center text-xl text-zinc-400">
             5 correct in a row moves you to longer numbers. You have 3 lives.

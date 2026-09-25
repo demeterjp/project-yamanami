@@ -225,7 +225,7 @@ useEffect(() => {
   { kana: randomKana(), x: spawnX(), y: spawnY(), dx: randomDirection() },
   { kana: randomKana(), x: spawnX(), y: spawnY(), dx: randomDirection() },
 ]);
-}, []);
+}, []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
   const handleKey = (e: KeyboardEvent) => {
     if (!started && e.key === "Enter") {
@@ -341,7 +341,7 @@ useEffect(() => {
         : k
     )
   );
-}, [kanas, started]);
+}, [kanas, started]); // eslint-disable-line react-hooks/exhaustive-deps
 
 useEffect(() => {
   let index = -1;
@@ -377,7 +377,7 @@ dx: randomDirection(),
   );
 
   setAnswer("");
-}, [answer]);
+}, [answer]); // eslint-disable-line react-hooks/exhaustive-deps
 
 useEffect(() => {
   if (!started || hp <= 0) return;

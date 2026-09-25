@@ -326,7 +326,7 @@ function KanaRushPageContent() {
         <div className="w-full max-w-2xl bg-zinc-900 rounded-3xl p-10 border border-yellow-500/30 flex flex-col items-center gap-8">
 
           <h1 className="text-7xl font-bold text-yellow-400">
-            Time's Up!
+            Time&apos;s Up!
           </h1>
 
           <p className="text-4xl font-bold text-white">

@@ -152,7 +152,7 @@ while (currentIndex < input.length) {
     ) {
       setCompleted(true);
     }
-  }, [input, started]);
+    }, [input, started]); // eslint-disable-line react-hooks/exhaustive-deps
 
       if (!started) {
   return (
