@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 const kanaList = [
   { kana: "あ", romaji: "a" },
@@ -93,15 +92,16 @@ const mediumExtra = [
   { kana: "ぽ", romaji: "po" },
 ];
 
+type Kana = { kana: string; romaji: string };
+
 export default function RecallMode() {
-  const router = useRouter();
 
   const [started, setStarted] = useState(false);
   const [completed, setCompleted] = useState(false);
 
   const [time, setTime] = useState(0);
 
-  const [selectedKana, setSelectedKana] = useState<any[]>([]);
+  const [selectedKana, setSelectedKana] = useState<Kana[]>([]);
 
   const [input, setInput] = useState("");
 

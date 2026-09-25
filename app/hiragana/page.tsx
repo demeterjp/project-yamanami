@@ -1,10 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 export default function HiraganaPage() {
-  const [kanaPage, setKanaPage] = useState(0);
   return (
     <div className="min-h-screen text-white flex flex-col items-center p-10 gap-10">
 

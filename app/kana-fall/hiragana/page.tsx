@@ -138,13 +138,16 @@ const hardExtra = [
   { kana: "ぴょ", romaji: "pyo" },
 ];
 
+type KanaItem = { kana: string; romaji: string };
+type FallingKana = { kana: KanaItem; x: number; y: number; dx: number };
+
 export default function KanaFallHiragana() {
 const spawnX = () => Math.random() * (window.innerWidth - 100);
 const spawnY = () => -(Math.random() * 300 + 100);
 
 const randomDirection = () => (Math.random() < 0.5 ? -2 : 2);
   const [started, setStarted] = useState(false);
-  const [kanas, setKanas] = useState<any[]>([]);
+  const [kanas, setKanas] = useState<FallingKana[]>([]);
   const [answer, setAnswer] = useState("");
 const [score, setScore] = useState(0);
 const [hp, setHp] = useState(100);
@@ -189,7 +192,7 @@ const randomKana = () => {
   return kanaList[Math.floor(Math.random() * kanaList.length)];
 };
 
-const getKanaDamage = (kana: any) => {
+const getKanaDamage = (kana: KanaItem) => {
   if (mediumExtra.includes(kana)) {
     return 10;
   }
@@ -201,7 +204,7 @@ const getKanaDamage = (kana: any) => {
   return 5;
 };
 
-const getKanaScore = (kana: any) => {
+const getKanaScore = (kana: KanaItem) => {
   if (mediumExtra.includes(kana)) {
     return 10;
   }
@@ -356,8 +359,6 @@ kanas.forEach((k, i) => {
 });
 
   if (index === -1) return;
-
-  const level = getCurrentLevel();
 
 setScore((s) => s + getKanaScore(kanas[index].kana));
 
