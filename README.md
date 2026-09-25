@@ -74,6 +74,26 @@ The application is designed for desktop use. It can be opened on mobile devices,
 
 ---
 
+## Getting Started
+
+Clone the repo and install dependencies:
+
+```bash
+git clone https://github.com/demeterjp/project-yamanami.git
+cd project-yamanami
+npm install
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
 ## Built With
 
 - Next.js
